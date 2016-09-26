@@ -43,7 +43,7 @@ router.route('/register').post(function(req, res) {
 });
 
 router.route('/login').post(function(req, res) {
-  if(req.body.username && req.body.password && req.body.level){
+  if(req.body.username && req.body.password){
 		User.findOne({username:req.body.username}, function(err,user){
 			if (user){
 				if (user.blocked){
