@@ -29,16 +29,18 @@ router.route('/register').post(function(req, res) {
 		});
     user.save(function(err){
       if (err){
-				console.log(err);
-        res.json({success:0});
+		console.log(err);
+		if (err['name'] == "ValidationError"){
+			res.json({success:0, message: "Username already taken"});
+		}
       }
       else{
-        res.json({success:1});
+        res.json({success: 1});
       }
     });
   }
   else{
-    res.json({success:0});
+    res.json({success: 0, message: "Username, password or level not supplied"});
   }
 });
 
