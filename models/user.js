@@ -8,7 +8,11 @@ var UserSchema = new Schema({
   failed: Number,
   banned: Boolean,
   blocked: Boolean,
-  level: {type: String , required: true}
+  level: {type: String , required: true},
+  email: String,
+  address: String,
+  firstname: String,
+  lastname: String
 });
 
 UserSchema.plugin(uniqueValidator);

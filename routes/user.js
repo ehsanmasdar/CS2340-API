@@ -158,4 +158,34 @@ router.route('/unblock').post(access.requireAdmin, function(req, res) {
     res.json({success:0});
   }
 });
+router.route('/profile').post(access.requireUser, function(req,res){
+	if (req.body.email && req.body.address && req.body.firstname && req.body.lastname){
+		User.findOne({username:req.session.user.username}, function(err,user){
+			if (user){
+				user.email = req.body.email;
+				user.address = req.body.address;
+				user.firstname = req.body.firstname;
+				user.lastname = req.body.lastname;
+				user.save(function(err){});
+				res.json({success:1})
+			}
+			else{
+				res.json({success: 0, message: "Username not found"});
+			}
+		});
+	}
+	else {
+		res.json({success: 0, message: "Required fields not provided"})
+	}
+})
+.get(access.requireUser, function(req,res){
+	User.findOne({username:req.session.user.username}, function(err,user){
+		if (user){
+			res.json({success:1, "data":{email:user.email,address:user.address,firstname:user.firstname,lastname:user.lastname}});
+		}
+		else{
+			res.json({success: 0, message: "Errror retrieveing profile"});
+		}
+	});
+});
 module.exports = router;
